@@ -34,3 +34,5 @@ elif len(buckets) < 1:
 elif len(buckets) > 1:
     print('Multiple backends found: ', buckets)
     exit()
+
+print(bucket)

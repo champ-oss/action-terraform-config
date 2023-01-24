@@ -21,3 +21,4 @@ jobs:
           role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_ROLE_NAME }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
       - uses: ./
+      - run: 'cat backend.tf'

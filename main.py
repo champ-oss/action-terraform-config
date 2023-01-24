@@ -7,6 +7,7 @@ from boto3 import client
 from decouple import config
 
 backend_prefix = config('BACKEND_PREFIX', default='terraform-backend')
+state_region = config('STATE_REGION', default='us-east-2')
 state_prefix = config('STATE_PREFIX', default='')
 branch = config('GITHUB_REF_NAME').replace('/', '-')
 repo = config('GITHUB_REPOSITORY')
@@ -35,4 +36,13 @@ elif len(buckets) > 1:
     print('Multiple backends found: ', buckets)
     exit()
 
-print(bucket)
+if not os.path.exists('backend.tf'):
+    f = open('backend.tf', 'w')
+    f.write('terraform {\n')
+    f.write('  backend "s3" {\n')
+    f.write('    bucket = "' + bucket + '"\n')
+    f.write('    key    = "' + name + '/' + state_prefix + branch + '.json"\n')
+    f.write('    region = "' + state_region + '"\n')
+    f.write('  }\n')
+    f.write('}\n')
+    f.close()

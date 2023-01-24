@@ -3,14 +3,12 @@ from re import sub
 from subprocess import check_output
 
 from boto3 import client
-# noinspection PyPackageRequirements
-from decouple import config
 
-backend_prefix = config('BACKEND_PREFIX', default='terraform-backend')
-state_region = config('STATE_REGION', default='us-east-2')
-state_prefix = config('STATE_PREFIX', default='')
-branch = config('GITHUB_REF_NAME').replace('/', '-')
-repo = config('GITHUB_REPOSITORY')
+backend_prefix = os.getenv('BACKEND_PREFIX', 'terraform-backend')
+state_region = os.getenv('STATE_REGION', 'us-east-2')
+state_prefix = os.getenv('STATE_PREFIX', '')
+branch = os.getenv('GITHUB_REF_NAME').replace('/', '-')
+repo = os.getenv('GITHUB_REPOSITORY')
 name = sub('.*/', '', repo)
 client = client('s3')
 response = client.list_buckets()

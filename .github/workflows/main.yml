@@ -16,7 +16,7 @@ jobs:
         with:
           terraform_version: 1.3.6 # https://github.com/hashicorp/terraform/tags
           terraform_wrapper: false
-      - uses: aws-actions/configure-aws-credentials@v1 # https://github.com/aws-actions/configure-aws-credentials/tags
+      - uses: aws-actions/configure-aws-credentials@v1-node16 # https://github.com/aws-actions/configure-aws-credentials/tags
         with:
           role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/${{ vars.AWS_ROLE_NAME }}
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}

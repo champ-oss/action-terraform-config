@@ -1,0 +1,10 @@
+name: terraform-config
+description: https://github.com/champ-oss/action-terraform-config
+
+runs:
+  using: "composite"
+  steps:
+    - run: pip install -r ${GITHUB_ACTION_PATH}/requirements.txt
+      shell: bash
+    - run: python ${GITHUB_ACTION_PATH}/main.py
+      shell: bash

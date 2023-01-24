@@ -1,6 +1,6 @@
-from os import rename
-from os.path import exists
+import os
 from re import sub
+from subprocess import check_output
 
 from boto3 import client
 # noinspection PyPackageRequirements
@@ -14,9 +14,10 @@ name = sub('.*/', '', repo)
 client = client('s3')
 response = client.list_buckets()
 buckets = []
+start_directory = os.getcwd()
 
-if exists(branch + '.tfvars'):
-    rename(branch + '.tfvars', branch + 'auto.tfvars')
+if os.path.exists(branch + '.tfvars'):
+    os.rename(branch + '.tfvars', branch + 'auto.tfvars')
 
 for bucket in response['Buckets']:
     if bucket["Name"].startswith(backend_prefix):
@@ -25,7 +26,11 @@ for bucket in response['Buckets']:
 if len(buckets) == 1:
     bucket = buckets.pop()
 elif len(buckets) < 1:
-    print('find bucket')
+    os.chdir(os.path.dirname(os.path.realpath(__file__)) + '/s3')
+    os.system('terraform init')
+    os.system('terraform apply -auto-approve -var="bucket_prefix=' + backend_prefix + '"')
+    bucket = check_output('terraform output -raw bucket', shell=True, text=True).strip()
+    os.chdir(start_directory)
 elif len(buckets) > 1:
     print('Multiple backends found: ', buckets)
     exit()

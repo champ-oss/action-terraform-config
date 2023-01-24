@@ -34,6 +34,9 @@ elif len(buckets) > 1:
     print('Multiple backends found: ', buckets)
     exit()
 
+if os.path.isdir('terraform'):
+    os.chdir('terraform')
+
 if not os.path.exists('backend.tf'):
     f = open('backend.tf', 'w')
     f.write('terraform {\n')
@@ -44,3 +47,5 @@ if not os.path.exists('backend.tf'):
     f.write('  }\n')
     f.write('}\n')
     f.close()
+
+os.chdir(start_directory)

@@ -22,3 +22,5 @@ jobs:
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
       - uses: ./
       - run: 'cat backend.tf'
+      - run: 'terraform init'
+      - run: 'terraform apply'

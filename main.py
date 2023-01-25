@@ -16,7 +16,7 @@ buckets = []
 start_directory = os.getcwd()
 
 if os.path.exists(branch + '.tfvars'):
-    os.rename(branch + '.tfvars', branch + 'auto.tfvars')
+    os.rename(branch + '.tfvars', branch + '.auto.tfvars')
 
 for bucket in response['Buckets']:
     if bucket["Name"].startswith(backend_prefix):

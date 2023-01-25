@@ -1,6 +1,13 @@
 name: terraform-config
 description: https://github.com/champ-oss/action-terraform-config
 
+inputs:
+  branch:
+    default: ${{ github.ref_name }}
+
+env:
+  BRANCH: ${{ inputs.branch }}
+
 runs:
   using: "composite"
   steps:

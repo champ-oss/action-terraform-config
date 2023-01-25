@@ -7,7 +7,7 @@ from boto3 import client
 backend_prefix = os.getenv('BACKEND_PREFIX', 'terraform-backend')
 state_region = os.getenv('STATE_REGION', 'us-east-2')
 state_prefix = os.getenv('STATE_PREFIX', '')
-branch = os.getenv('GITHUB_REF_NAME').replace('/', '-')
+branch = os.getenv('BRANCH').replace('/', '-')
 repo = os.getenv('GITHUB_REPOSITORY')
 name = sub('.*/', '', repo)
 client = client('s3')

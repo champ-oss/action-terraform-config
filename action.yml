@@ -3,10 +3,8 @@ description: https://github.com/champ-oss/action-terraform-config
 
 inputs:
   branch:
+    description: 'Used to select state file and .tfvars files'
     default: ${{ github.ref_name }}
-
-env:
-  BRANCH: ${{ inputs.branch }}
 
 runs:
   using: "composite"
@@ -15,3 +13,5 @@ runs:
       shell: bash
     - run: python ${GITHUB_ACTION_PATH}/main.py
       shell: bash
+      env:
+        BRANCH: ${{ inputs.branch }}

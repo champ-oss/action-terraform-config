@@ -7,7 +7,7 @@ from boto3 import client
 backend_prefix = os.getenv('BACKEND_PREFIX', 'terraform-backend')
 state_region = os.getenv('STATE_REGION', 'us-east-2')
 state_prefix = os.getenv('STATE_PREFIX', '')
-branch = os.getenv('GITHUB_REF_NAME').replace('/', '-')
+branch = os.getenv('BRANCH').replace('/', '-')
 repo = os.getenv('GITHUB_REPOSITORY')
 name = sub('.*/', '', repo)
 client = client('s3')
@@ -16,7 +16,7 @@ buckets = []
 start_directory = os.getcwd()
 
 if os.path.exists(branch + '.tfvars'):
-    os.rename(branch + '.tfvars', branch + 'auto.tfvars')
+    os.rename(branch + '.tfvars', branch + '.auto.tfvars')
 
 for bucket in response['Buckets']:
     if bucket["Name"].startswith(backend_prefix):
@@ -34,6 +34,9 @@ elif len(buckets) > 1:
     print('Multiple backends found: ', buckets)
     exit()
 
+if os.path.isdir('terraform'):
+    os.chdir('terraform')
+
 if not os.path.exists('backend.tf'):
     f = open('backend.tf', 'w')
     f.write('terraform {\n')
@@ -44,3 +47,5 @@ if not os.path.exists('backend.tf'):
     f.write('  }\n')
     f.write('}\n')
     f.close()
+
+os.chdir(start_directory)

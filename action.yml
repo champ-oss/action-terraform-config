@@ -1,6 +1,11 @@
 name: terraform-config
 description: https://github.com/champ-oss/action-terraform-config
 
+inputs:
+  branch:
+    description: 'Used to select state file and .tfvars files'
+    default: ${{ github.ref_name }}
+
 runs:
   using: "composite"
   steps:
@@ -8,3 +13,5 @@ runs:
       shell: bash
     - run: python ${GITHUB_ACTION_PATH}/main.py
       shell: bash
+      env:
+        BRANCH: ${{ inputs.branch }}
